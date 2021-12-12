@@ -17,9 +17,22 @@ qaAnsRow.forEach( function(qqAnsRowSingle){
     setTimeout(function(){
       step();
     },500)
+
+    var valid = this.getAttribute("valid");
+    if(valid == "valid"){
+      scoreCount += 1;
+      score.innerHTML = scoreCount;
+      totalScore.innerHTML = scoreCount;
+    }else{
+      scoreCount -= 1;
+      score.innerHTML = scoreCount;
+      totalScore.innerHTML = scoreCount;
+    }
+
   })
   
 });
+
 
 function step(){
   count += 1;
