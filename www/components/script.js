@@ -5,45 +5,54 @@ var countdown = document.getElementById('countdown');
 var count = 0;
 var scoreCount = 0;
 var duration = 0;
-var qa_set = document.querySelectorAll('.qa_set');
+var qaSet = document.querySelectorAll('.qa_set');
 var qaAnsRow = document.querySelectorAll('.qa_set .qa_ans_row input');
 
-skip.addEventListener('click', function(){
-  step()
-  
+$(document).on('click','#skip', function(){
+  step();
+  duration = 10;
 });
-qaAnsRow.forEach( function(qqAnsRowSingle){
-  qaAnsRowSingle.addEventListener('click', function(){
-    setTimeout(function(){
-      step();
-    },500)
 
-    var valid = this.getAttribute("valid");
-    if(valid == "valid"){
-      scoreCount += 1;
-      score.innerHTML = scoreCount;
-      totalScore.innerHTML = scoreCount;
-    }else{
-      scoreCount -= 1;
-      score.innerHTML = scoreCount;
-      totalScore.innerHTML = scoreCount;
+qaAnsRow.forEach(function(qqAnsRowSingle){
+  qaAnsRowSingle.addEventListener('click', function () {
+    setTimeout(function () {
+      step()
+      duration = 10
+    }, 500)
+
+    var valid = this.getAttribute('valid')
+    if (valid == 'valid') {
+      scoreCount += 1
+      score.innerHTML = scoreCount
+      totalScore.innerHTML = scoreCount
+    } else {
+      scoreCount -= 1
+      score.innerHTML = scoreCount
+      totalScore.innerHTML = scoreCount
     }
-
   })
-  
-});
+})
 
-
-function step(){
+function step() {
   count += 1;
-  for(var i = 0; i < qa_set.length; i++){
+  for (var i = 0; i < qa_set.length; i++) {
     qaSet[i].className = 'qa_set';
   }
   qaSet[count].className = 'qa_set active';
-  if(count == 5){
-    skip.style.display =  'none';
+  if (count == 5) {
+    skip.style.display = 'none';
+    clearInterval(durationTime)
+    countdown.innerHTML = 0
   }
-
-
-
 }
+
+var durationTime = setInterval(function(){
+  if (duration == 10) {
+    duration = 0;
+  }
+  duration += 1
+  countdown.innerHTML = duration
+  if (countdown.innerHTML == '10') {
+    step()
+  }
+}, 1000)
